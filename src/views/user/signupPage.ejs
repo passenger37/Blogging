@@ -1,0 +1,13 @@
+<%- include ('../partials/head.ejs') -%>
+<form action="/createuser" method="POST">
+
+    <label>Name</label>
+    <input type="text" name="name"/>
+    <label>Email</label>
+    <input type="text" name="email"/>
+    <label>Password</label>
+    <input type="password" name="password"/>
+    <label>Confirm Password</label>
+    <input type="password" name="confirmPassword"/>
+    <button type="submit">Submit</button>
+</form>

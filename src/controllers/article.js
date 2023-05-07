@@ -8,7 +8,7 @@ exports.homePage=((req,res,next)=>{
 });
 
 exports.addArticle=(req,res,next)=>{
-    return res.render('article/createArticle');
+    return res.render('article/createArticle',{csrfToken:req.csrfToken()});
 }
 
 exports.createArticle=(req,res,next)=>{

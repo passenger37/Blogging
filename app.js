@@ -7,6 +7,7 @@ const bodyparser=require("body-parser");
 const multer = require('multer');
 const MongodbStore=require("connect-mongodb-session")(session);
 const flash=require("connect-flash");
+const csrf=require("csurf");
 
 MONGODB_URI='mongodb+srv://passenger37:YGvlU8LGYBTEa1Ls@blogging.0lx6fdk.mongodb.net/Blogging?retryWrites=true&w=majority';
 
@@ -17,6 +18,8 @@ const store=MongodbStore({
   collection:"sessions"
 
 })
+
+const csrfProtection = csrf();
 
 const ArticleRoutes=require("./src/routes/article");
 const UserRoutes=require("./src/routes/user");
@@ -35,6 +38,7 @@ app.use(session({
   store:store
 }));
 
+app.use(csrfProtection);
 app.use(flash());
 
 app.use(UserRoutes);

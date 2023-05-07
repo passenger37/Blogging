@@ -4,7 +4,15 @@ const Downvote=require('../models/downvote');
 const Comment=require("../models/comments");
 
 exports.homePage=((req,res,next)=>{
-    res.render('homepage/homepage',{isAuthenticated:req.session.isAuthenticated,message:req.flash("message")});
+    Article.find({})
+    .then((article)=>{
+        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++");
+        console.log(article);
+        res.render('homepage/homepage',
+        {isAuthenticated:req.session.isAuthenticated,
+         message:req.flash("message"),
+         blogs:article});
+    })
 });
 
 exports.addArticle=(req,res,next)=>{

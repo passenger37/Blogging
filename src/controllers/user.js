@@ -51,7 +51,7 @@ exports.login=(req,res,next)=>{
                   req.session.user = user;
                 return req.session.save(err => {
                   console.log(err);
-                  req.flash("message",`User ${user} is Login Successfully !!`)
+                  req.flash("message",`User ${user.name} is Login Successfully !!`)
                   res.redirect('/');
                 });}
             })
@@ -59,15 +59,15 @@ exports.login=(req,res,next)=>{
 })}
 
 exports.loginPage=(req,res,next)=>{
-    res.render("user/loginPage",{isAuthenticated:req.session.isAuthenticated});
+    res.render("user/loginPage",{isAuthenticated:req.session.isAuthenticated,csrfToken:req.csrfToken()});
 }
 
 exports.signupPage=(req,res,next)=>{
-    res.render("user/signupPage",{isAuthenticated:req.session.isAuthenticated});
+    res.render("user/signupPage",{isAuthenticated:req.session.isAuthenticated,csrfToken:req.csrfToken()});
 }
 
 exports.profile=(req,res,next)=>{
-    res.render("user/profile",{isAuthenticated:req.session.isAuthenticated});
+    res.render("user/profile",{isAuthenticated:req.session.isAuthenticated,csrfToken:req.csrfToken()});
 }
 
 exports.logout=(req,res,next)=>{

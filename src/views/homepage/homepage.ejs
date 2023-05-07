@@ -3,5 +3,7 @@
 <% if (message) { %>
     <div><%= message %></div>
 <% } %>
-
+<% blogs.forEach(blog=>{%>
+    <p><%= blog.text %></p>
+<% }) %>
 

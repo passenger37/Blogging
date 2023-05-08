@@ -14,6 +14,8 @@ router.post("/upvote",article.upvote);
 
 router.post("/downvote",article.downvote);
 
-router.post("/comments",article.comments);
+router.post("/comments",article.comments);//TODO:looked intot he logic of controller for post
+
+router.get("/editarticle/:articleId",article.editArticle);
 
 module.exports =router;

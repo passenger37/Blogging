@@ -4,7 +4,7 @@ const Downvote=require('../models/downvote');
 const Comment=require("../models/comments");
 
 exports.homePage=((req,res,next)=>{
-    Article.find({})
+    Article.find({}).populate('owner','name')
     .then((article)=>{
         console.log("+++++++++++++++++++++++++++++++++++++++++++++++++");
         console.log(article);
@@ -21,11 +21,11 @@ exports.addArticle=(req,res,next)=>{
 
 exports.createArticle=(req,res,next)=>{
     console.log(req.session);
-    const text=req.body.text;
+    const title=req.body.text;
     const entry=req.body.entry;
     if (req.session.isAuthenticated){
         const article=new Article({
-            text:text,
+            title:title,
             owner:req.session.user,
             entry:entry,
         });
@@ -33,6 +33,13 @@ exports.createArticle=(req,res,next)=>{
         req.flash("message","Post is created Successfully !!")
     }
     res.redirect("/");
+}
+
+exports.editArticle=(req,res,next)=>{
+    Article.findById(req.param.articleId)
+    .then(article=>{
+        return res.render("article/editArticle.ejs",{csrfToken:req.csrfToken(),article:article});
+    })
 }
 
 exports.upvote=(req,res,next)=>{
@@ -71,14 +78,14 @@ exports.downvote=(req,res,next)=>{
 
 exports.comments=(req,res,next)=>{
     const comment=req.body.comment;
-    const article=req.body.article;
+    // const article=req.body.article;
     if(req.session.isAuthenticated){
         const comments=Comment({
             owner:req.session.user,
-            text:comment
+            comment:comment
         })
-        comment.save();
-        req.flash("message","Comment on the post !!")
+        comments.save();
+        req.flash("message","Commented on the post !!")
     }
     return res.redirext("/");
 }

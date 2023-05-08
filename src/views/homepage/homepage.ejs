@@ -4,6 +4,9 @@
     <div><%= message %></div>
 <% } %>
 <% blogs.forEach(blog=>{%>
-    <p><%= blog.text %></p>
+    <a href="/editarticle/<%=blog.Id%>">
+        <p><%= blog.title %></p>
+        <small>blog.owner.name</small>
+    </a>
 <% }) %>
 

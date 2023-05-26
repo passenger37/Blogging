@@ -13,9 +13,6 @@ const upvote=new Schema({
         ref:'Article',
         required:true
     },
-    vote:{
-        type:Boolean
-    }
 });
 
 module.exports=mongoose.model('Upvote',upvote);

@@ -14,6 +14,6 @@ router.get("/loginPage",userController.loginPage);
 
 router.get("/signupPage",userController.signupPage);
 
-router.get("/profilepage",userController.profile);
+router.get("/profilepage/:id",userController.profile);
 
 module.exports =router;

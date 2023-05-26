@@ -5,25 +5,30 @@ const Comment=require("../models/comments");
 
 exports.homePage=((req,res,next)=>{
     Article.find({}).populate('owner','name')
-    .then((article)=>{
-        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++");
-        console.log(article);
-        res.render('homepage/homepage',
-        {isAuthenticated:req.session.isAuthenticated,
-         message:req.flash("message"),
-         blogs:article});
+    .then(async (articles)=>{
+        let blogs=[];
+        for(let article of articles){
+            let comment =await Comment.find({"article":article._id})
+            blogs.push({article:article,comment:comment});
+        }
+        return res.render('homepage/homepage',
+        {isAuthenticated:res.locals.isAuthenticated,
+            message:req.flash("message"),
+            blogs:blogs,
+            csrfToken:res.locals.csrfToken,
+            user:req.session.user});
+        });
     })
-});
 
 exports.addArticle=(req,res,next)=>{
-    return res.render('article/createArticle',{csrfToken:req.csrfToken()});
+    return res.render('article/createArticle',{csrfToken:res.locals.csrfToken,user:req.session.user});
 }
 
 exports.createArticle=(req,res,next)=>{
     console.log(req.session);
     const title=req.body.text;
     const entry=req.body.entry;
-    if (req.session.isAuthenticated){
+    if (res.locals.isAuthenticated){
         const article=new Article({
             title:title,
             owner:req.session.user,
@@ -36,56 +41,96 @@ exports.createArticle=(req,res,next)=>{
 }
 
 exports.editArticle=(req,res,next)=>{
-    Article.findById(req.param.articleId)
+    Article.findById(req.params.articleId).populate('owner','name')
     .then(article=>{
-        return res.render("article/editArticle.ejs",{csrfToken:req.csrfToken(),article:article});
+        console.log(article,req.session.user);
+        return res.render("article/editArticle.ejs",{csrfToken:res.locals.csrfToken,article:article,user:req.session.user});
     })
 }
 
-exports.upvote=(req,res,next)=>{
-    const up=req.body.upvote;
-    const article=req.body.article;
-    if (req.session.isAuthenticated || up!=0){
-            const upvote=new Upvote({
-                owner:req.session.user,
-                entry:article,
-                vote:up,
-            }) 
-            upvote.save();
-    }
-    else{
-        Upvote.findByIdAndRemove({entry:article})
-    }
-    return res.redirext("/");
+exports.updateArticle=(req,res,next)=>{
+    Article.findById(req.params.articleId)
+    .then(article=>{
+            article.entry=req.body.entry
+            article.save()
+            req.flash("message","Post Updated Successfully !!")
+            return res.redirect("/");
+        })
 }
 
-exports.downvote=(req,res,next)=>{
-    const down=req.body.downvote;
-    const article=req.body.article;
-    if (req.session.isAuthenticated || down!=0){
-            const downvote=new Upvote({
-                owner:req.session.user,
-                entry:article,
-                vote:down,
-            }) 
-            downvote.save();
+exports.deleteArticle=(req,res,next)=>{
+    Article.findByIdAndRemove(req.params.articleId).then(()=>{
+        Comment.deleteMany({"entry":req.params.articleId}).then(()=>{
+            req.flash("message","Post Deleted Successfully !!");
+            return res.redirect("/");
+        })
     }
-    else{
-        Downvote.findByIdAndRemove({entry:article})
+    )
+}
+
+exports.upvote=async (req,res,next)=>{
+    if(req.session.isAuthenticated){
+        let upVote=await Upvote.find({"entry":req.body.articleId,"owner":req.session.user});
+        console.log(upVote.length);
+
+        if (upVote.length>=1){
+            await Upvote.deleteOne({"entry":req.body.articleId,"owner":req.session.user})
+        }
+        else {
+            Article.findById(req.body.articleId)
+            .then(article=>{
+                console.log(article);
+                const upvote=new Upvote({
+                    owner:req.session.user,
+                    entry:article,
+                }) 
+                upvote.save();
+            })
+        }
     }
-    return res.redirext("/");
+    return res.redirect("/");
+}
+
+exports.downvote=async (req,res,next)=>{
+    if(req.session.isAuthenticated){
+        let downVote=await Downvote.find({"entry":req.body.articleId,"owner":req.session.user});
+        console.log(downVote.length);
+
+        if (downVote.length>=1){
+            await Downvote.deleteOne({"entry":req.body.articleId,"owner":req.session.user})
+        }
+        else {
+            Article.findById(req.body.articleId)
+            .then(article=>{
+                console.log(article);
+                const downVote=new Downvote({
+                    owner:req.session.user,
+                    entry:article,
+                }) 
+                downVote.save();
+            })
+        }
+    }
+    return res.redirect("/");
 }
 
 exports.comments=(req,res,next)=>{
     const comment=req.body.comment;
-    // const article=req.body.article;
-    if(req.session.isAuthenticated){
-        const comments=Comment({
-            owner:req.session.user,
-            comment:comment
-        })
-        comments.save();
-        req.flash("message","Commented on the post !!")
-    }
-    return res.redirext("/");
+    Article.findById(req.params.articleId)
+    .then(article=>{
+        if(res.locals.isAuthenticated){
+            const comments=new Comment({
+                owner:req.session.user,
+                article:article,
+                comment:comment
+            })    
+            comments.save();
+            req.flash("message","Commented on the post !!")
+            return res.redirect("/");
+        }
+        else{
+            req.flash("message","Login Please !!")
+            return res.redirect("/");
+        }
+    })
 }

@@ -8,14 +8,18 @@ router.get("/",article.homePage); //TODO: load all article in here with passing 
 
 router.get("/addArticle",article.addArticle);
 
-router.post("/createarticle",article.createArticle);//TODO:create article
+router.post("/createarticle",article.createArticle);
 
 router.post("/upvote",article.upvote);
 
 router.post("/downvote",article.downvote);
 
-router.post("/comments",article.comments);//TODO:looked intot he logic of controller for post
+router.post("/comment/:articleId",article.comments);//TODO:looked in ot he logic of controller for post
 
 router.get("/editarticle/:articleId",article.editArticle);
+
+router.post("/editarticle/:articleId",article.updateArticle);
+
+router.get("/deletearticle/:articleId",article.deleteArticle);
 
 module.exports =router;

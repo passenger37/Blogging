@@ -2,9 +2,12 @@
     <li><a href="/">Blogs</a></li>
     <% if (isAuthenticated) { %>
         <li><a href="/addArticle">Add Article</a></li>
-        <li><a href="/profilepage">Profile</a></li>
         <li><a href="/logout">Logout</a></li>
-        <% } %>
-        <li><a href="/loginPage">Login</a></li>
-    <li><a href="/signupPage">Signup</a></li>
+        <% if (user.name) {%>
+            <li><a href="/profilepage/<%= user._id%>"><%= user.name%></a></li>
+            <% } %>
+            <% }else { %>
+            <li><a href="/loginPage">Login</a></li>
+            <li><a href="/signupPage">Signup</a></li>
+            <%}%>
 </ul>

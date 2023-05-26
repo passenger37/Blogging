@@ -1,4 +1,15 @@
-<h1>edit article</h1>
-<textarea>
-    <%= article.entry%>
-</textarea>
+<%- include ('../partials/head.ejs') -%>
+<h1> Article</h1>
+<% if(isAuthenticated && JSON.stringify(article.owner._id)==JSON.stringify(user._id)){ %>
+    <form action="/editarticle/<%= article._id %>" method="POST">
+        <textarea name="entry" rows="4" cols="50" >
+            <%= article.entry%>
+        </textarea>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit">Submit</button>
+        <a href="/deletearticle/<%= article._id %>"><strong>Delete</strong></a>
+    </form>
+    <% } else{ %>
+        <strong><%= article.entry%></strong>
+        <%}%>
+        <%- include ('../partials/footer.ejs') -%>

@@ -29,10 +29,10 @@ app.set('views', path.join(__dirname, 'src/views'));
 
 app.use(bodyparser.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'src/public')));
 
 app.use(session({
-  secret:"adghgjkgjfhdgsfsaasdgdhjf",
+  secret:"adghgjkgjfhdgsfsaasdYGvlU8LGYBTEa1Ls@blogginggdhjf",
   resave:false,
   saveUninitialized:false,
   store:store
@@ -40,6 +40,12 @@ app.use(session({
 
 app.use(csrfProtection);
 app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isAuthenticated;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 app.use(UserRoutes);
 app.use(ArticleRoutes);

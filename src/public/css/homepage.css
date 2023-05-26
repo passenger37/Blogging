@@ -1,0 +1,8 @@
+.message{
+    z-index: 1000;
+    background-color: aquamarine;
+    width: 60%;
+    position: fixed;
+    top: 40px;
+    left: 20%;
+}

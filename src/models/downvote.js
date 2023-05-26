@@ -12,9 +12,6 @@ const downvote=new Schema({
         type:Schema.Types.ObjectId,
         ref:'Article',
         required:true
-    },
-    vote:{
-        type:Boolean
     }
 });
 

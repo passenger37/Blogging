@@ -1,6 +1,7 @@
 const bcrypt=require("bcryptjs");
 
 const User=require("../models/user");
+const Article=require("../models/article");
 
 exports.createUser=(req,res,next)=>{
     console.log(req.body);
@@ -59,15 +60,21 @@ exports.login=(req,res,next)=>{
 })}
 
 exports.loginPage=(req,res,next)=>{
-    res.render("user/loginPage",{isAuthenticated:req.session.isAuthenticated,csrfToken:req.csrfToken()});
+    res.render("user/loginPage",{isAuthenticated:res.locals.isAuthenticated,csrfToken:res.locals.csrfToken});
 }
 
 exports.signupPage=(req,res,next)=>{
-    res.render("user/signupPage",{isAuthenticated:req.session.isAuthenticated,csrfToken:req.csrfToken()});
+    res.render("user/signupPage",{isAuthenticated:res.locals.isAuthenticated,csrfToken:res.locals.csrfToken});
 }
 
 exports.profile=(req,res,next)=>{
-    res.render("user/profile",{isAuthenticated:req.session.isAuthenticated,csrfToken:req.csrfToken()});
+    User.findById(rea.params.id)
+    .then(user=>{
+        user.forEach(user=>{
+            const article=Article.find({"owner":user._id})//have to check o/p
+        })
+        res.render("user/profile",{isAuthenticated:res.locals.isAuthenticated,csrfToken:res.locals.csrfToken,user:user});
+    })
 }
 
 exports.logout=(req,res,next)=>{

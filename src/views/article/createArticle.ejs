@@ -1,3 +1,4 @@
+<%- include ('../partials/head.ejs') -%>
 <h1>Create Article</h1>
 <form action="/createarticle" method="POST">
 
@@ -5,15 +6,13 @@
     <input type="text" name="text"/>
     <label>Post</label>
     <textarea name="entry" rows="4" cols="50"></textarea>
-    <input type="checkbox" name="upvote">
-    <input type="checkbox" name="downvote">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <button type="submit">Submit</button>
 </form>
-
-<script>
+<%- include ('../partials/footer.ejs') -%>
+<!-- <script>
  var checkbox = document.querySelector("input[type='checkbox']");
   checkbox.addEventListener("change",function(){
      this.value = this.checked ? 1 : 0;
   });
-</script>
+</script> -->

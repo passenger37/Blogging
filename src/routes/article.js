@@ -10,9 +10,9 @@ router.get("/addArticle",article.addArticle);
 
 router.post("/createarticle",article.createArticle);
 
-router.post("/upvote",article.upvote);
+// router.post("/upvote",article.upvote);
 
-router.post("/downvote",article.downvote);
+// router.post("/downvote",article.downvote);
 
 router.post("/comment/:articleId",article.comments);//TODO:looked in ot he logic of controller for post
 

@@ -1,8 +1,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/css/header.css">
-<header class="main-header">
-    Blogginggg
-</header>
-<nav>
-    <%- include ('../partials/navigation.ejs') -%>
-</nav>
+<div class="header">
+    <header class="main-header-icon">
+       <h1>
+        Blogginggg
+       </h1> 
+    </header>
+    <nav class="nav">
+        <%- include ('../partials/navigation.ejs') -%>
+        <button class="openbtn" onclick="openNav()">&#9776;</button>
+    </nav>
+</div>
+
+<script>
+function openNav() {
+    console.log("OPEN BTN>>>>>>>>>>>....")
+  document.getElementById("mySidepanel").style.width = "250px";
+}
+</script>

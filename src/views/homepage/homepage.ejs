@@ -1,77 +1,29 @@
 <%- include ('../partials/head.ejs') -%>
 <link rel="stylesheet" href="/css/homepage.css">
-<h1>Homepage</h1>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+
 <% if (message) { %>
     <div class="message"><%= message %></div>
 <% } %>
+<!-- <img src="homepagepic.jpg"/> -->
 <% blogs.forEach(blog=>{%>
-    <a href="/editarticle/<%= blog.article._id %>">
-        <p><%= blog.article.title %></p>
-        <small><%= blog.article.entry %></small><br/>
-        <small><%=blog.article.owner.name%></small>
-        <div>
-        </a>
-        <% if (isAuthenticated) { %>
-        <div id="upvote" data-articleId="<%=blog.article._id%>">
-            <small>Upvote</small><br/>
+<div class="single-article">
+    <a href="/editarticle/<%= blog._id %>">
+        <div class="article">
+            <h2><%= blog.title %></h2><br/>
+            <strong><%= blog.entry.substring(1, 200) + "..." %></strong><br/>
         </div>
-        <div id="downvote" data-articleId="<%=blog.article._id%>">
-            <small>Downvote</small>
+    </a>
+        <div class="name">
+            <a href="/profilepage/<%= blog.owner._id%>"><small>by-<%= blog.owner.name%></small></a>
         </div>
-        <% } %>
-    </div>
-    <div>
-        <% blog.comment.forEach(comment=>{%>
-            <small><%= comment.comment %></small>
-            <%})%>
-        <% if (isAuthenticated) { %>
-        <form action="/comment/<%= blog.article._id %>" method="POST">
-            <h6>Add Comment</h6>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <input type="text" name="comment"/>
-            <button type="submit">Comment</button>
-        </form>
-        <% } %>
-    </div>
-    <% }) %>
+</div>
+<% }) %>
+
     <%- include ('../partials/footer.ejs') -%>
+
 <script>
         //message
-       $('.message').delay(4000).fadeOut();
+      $('.message').delay(4000).fadeOut();
 
-       //Upvote
-       $('#upvote').on('click',function(){
-        event.preventDefault();
-        let articleId=$(this).attr('data-articleId');
-        url=`${window.location.pathname}upvote`;
-        $.ajax({
-            url:url,
-            type:"post",
-            data:{
-                articleId:articleId,
-                _csrf:"<%= csrfToken %>"
-            },
-            dataType:'json',
-            success:function(res){
-                console.log(res)
-            }})
-       })
-
-       //Downvote
-       $('#downvote').on('click',function(){
-        event.preventDefault();
-        let articleId=$(this).attr('data-articleId');
-        url=`${window.location.pathname}downvote`;
-        $.ajax({
-            url:url,
-            type:"post",
-            data:{
-                articleId:articleId,
-                _csrf:"<%= csrfToken %>"
-            },
-            dataType:'json',
-            success:function(res){
-                console.log(res)
-            }})
-       })
 </script>

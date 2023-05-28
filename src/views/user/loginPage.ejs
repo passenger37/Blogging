@@ -1,10 +1,20 @@
 <%- include ('../partials/head.ejs') -%>
-<form action="/login" method="POST">
-    <label>Email</label>
-    <input type="text" name="email"/>
-    <label>Password</label>
-    <input type="password" name="password"/>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <button type="submit">Submit</button>
-</form>
+<link rel="stylesheet" href="/css/loginPage.css">
+<div class="loginPage">
+    <div class="container">
+        <form action="/login" method="POST" id="form" class="form">
+            <h2>Login</h2>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input type="text" name="email" placeholder="Enter email.."/>
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Enter Password.." />
+            </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit">Submit</button>
+    </form>
+</div>
+</div>
 <%- include ('../partials/footer.ejs') -%>

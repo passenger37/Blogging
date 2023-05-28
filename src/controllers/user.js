@@ -68,13 +68,23 @@ exports.signupPage=(req,res,next)=>{
 }
 
 exports.profile=(req,res,next)=>{
-    User.findById(rea.params.id)
+    User.findById(req.session.user._id)
     .then(user=>{
-        user.forEach(user=>{
-            const article=Article.find({"owner":user._id})//have to check o/p
-        })
-        res.render("user/profile",{isAuthenticated:res.locals.isAuthenticated,csrfToken:res.locals.csrfToken,user:user});
+            Article.find({"owner":user._id}).populate('owner','name').then(article=>{
+            res.render("user/profile",{isAuthenticated:res.locals.isAuthenticated,csrfToken:res.locals.csrfToken,user:user,article:article});
+            })
     })
+}
+
+exports.updateProfile=(req,res,next)=>{
+    User.findById(req.session.user._id)
+    .then(user=>{
+            user.name=req.body.name
+            user.email=req.body.name
+            user.save()
+            req.flash("message","User details Updated Successfully !!")
+            return res.redirect("/");
+        })
 }
 
 exports.logout=(req,res,next)=>{

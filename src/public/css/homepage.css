@@ -1,8 +1,28 @@
 .message{
     z-index: 1000;
-    background-color: aquamarine;
-    width: 60%;
+    background-color: rgb(65, 79, 74);
     position: fixed;
-    top: 40px;
+    bottom: 20%;
     left: 20%;
+    padding:2px;
 }
+.single-article{  
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px;
+    margin: 40px 0;
+}
+
+.single-article a{
+    text-decoration: none;
+    color: black;
+}
+
+.article h2{
+    text-align: center;
+}
+
+.name{
+    margin-left: 80%;
+}
+

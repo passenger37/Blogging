@@ -1,15 +1,88 @@
 <%- include ('../partials/head.ejs') -%>
-<h1> Article</h1>
-<% if(isAuthenticated && JSON.stringify(article.owner._id)==JSON.stringify(user._id)){ %>
-    <form action="/editarticle/<%= article._id %>" method="POST">
-        <textarea name="entry" rows="4" cols="50" >
-            <%= article.entry%>
-        </textarea>
+<link rel="stylesheet" href="/css/editarticle.css">
+<div class="edit-article">
+    <h1> <%= article.title%></h1>
+    <% if(isAuthenticated && JSON.stringify(article.owner._id)==JSON.stringify(user._id)){ %>
+        <form action="/editarticle/<%= article._id %>" method="POST" class="article-form">
+            <textarea name="entry" rows="4" cols="50" >
+                 <%= article.entry%>
+            </textarea>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit">Submit</button>
-        <a href="/deletearticle/<%= article._id %>"><strong>Delete</strong></a>
+        <div class="form-btn">
+            <a href="/deletearticle/<%= article._id %>"><strong>Delete</strong></a>
+            <button type="submit">Submit</button>
+        </div>
     </form>
     <% } else{ %>
-        <strong><%= article.entry%></strong>
+        <div class="article-text">
+            <small><%= article.entry%></small>
+            <a href="/profilepage/<%= article.owner._id%>"><small>by-<%= article.owner.name%></small></a>
+        </div>
         <%}%>
-        <%- include ('../partials/footer.ejs') -%>
+        <!-- <% if (isAuthenticated) { %>
+        <div class="article-votes">
+            <div id="upvote" data-articleId="<%=article._id%>">
+                <img src="/src/public/up.png" width="30"/>
+                <small>Upvote</small><br/>
+            </div>
+            <div id="downvote" data-articleId="<%=article._id%>">
+                <img src="/src/public/down.png"  width="30"/>
+                <small>Downvote</small><br/>
+            </div>
+        </div>
+        <% } %> -->
+        <div class="comments">
+            <h3>Comments</h3>
+            <% comment.forEach(comment=>{%>
+                <strong><%= comment.comment %></strong>
+                <small>[from - <%= comment.owner.name %>]</small><br/>
+                <%})%>
+                <% if (isAuthenticated) { %>
+                    <form action="/comment/<%= article._id %>" method="POST" class="comment-form">
+                        <h6>Add Comment</h6>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="text" name="comment" placeholder="Comment..."/>
+                        <button type="submit">Comment</button>
+                    </form>
+                    <% } %>
+        </div>         
+</div>
+            <%- include ('../partials/footer.ejs') -%>
+<script>
+                    
+        //Upvote
+    //    $('#upvote').on('click',function(){
+    //     event.preventDefault();
+    //     let articleId=$(this).attr('data-articleId');
+    //     url="/upvote";
+    //     $.ajax({
+    //         url:url,
+    //         type:"post",
+    //         data:{
+    //             articleId:articleId,
+    //             _csrf:"<%= csrfToken %>"
+    //         },
+    //         dataType:'json',
+    //         success:function(res){
+    //             console.log(res)
+    //         }})
+    //    })
+
+    //    //Downvote
+    //    $('#downvote').on('click',function(){
+    //     event.preventDefault();
+    //     let articleId=$(this).attr('data-articleId');
+    //     url="/downvote";
+    //     $.ajax({
+    //         url:url,
+    //         type:"post",
+    //         data:{
+    //             articleId:articleId,
+    //             _csrf:"<%= csrfToken %>"
+    //         },
+    //         dataType:'json',
+    //         success:function(res){
+    //             console.log(res)
+    //         }})
+    //    })
+    </script>

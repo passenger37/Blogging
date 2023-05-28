@@ -1,3 +1,32 @@
-.main-header{
-    background-color: blueviolet;
+.header{
+    display:flex;
+    background-color: #111; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+}
+
+.header header h1{
+    color: rgb(236, 233, 227);
+    height: max-content;
+}
+
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color: #444;
+  }
+
+@media only screen and (min-width: 600px) {
+    .openbtn {
+    display: none;
+}
 }

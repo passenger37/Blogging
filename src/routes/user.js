@@ -16,6 +16,6 @@ router.get("/signupPage",userController.signupPage);
 
 router.get("/profilepage/:id",userController.profile);
 
-router.get("/updateProfile/:id",userController.updateProfile);
+router.post("/updateProfile/:id",userController.updateProfile);
 
 module.exports =router;

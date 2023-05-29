@@ -12,6 +12,7 @@ const csrf=require("csurf");
 MONGODB_URI='mongodb+srv://passenger37:YGvlU8LGYBTEa1Ls@blogging.0lx6fdk.mongodb.net/Blogging?retryWrites=true&w=majority';
 
 const app=express();
+const PORT = process.env.PORT || 3000;
 
 const store=MongodbStore({
   uri:MONGODB_URI,
@@ -52,7 +53,7 @@ app.use(ArticleRoutes);
 
 mongoose.connect(MONGODB_URI)
                 .then(result=>{
-                    app.listen(3000);
+                    app.listen(PORT);
                     console.log("Connected..");
                 })
                 .catch(err=>{

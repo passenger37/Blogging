@@ -31,6 +31,7 @@
             </div>
         </div>
         <% } %> -->
+        <% if(comment.length>0){%>
         <div class="comments">
             <h3>Comments</h3>
             <% comment.forEach(comment=>{%>
@@ -45,7 +46,8 @@
                         <button type="submit">Comment</button>
                     </form>
                     <% } %>
-        </div>         
+        </div>   
+        <%}%>      
 </div>
             <%- include ('../partials/footer.ejs') -%>
 <script>

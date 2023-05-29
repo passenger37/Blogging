@@ -11,7 +11,6 @@ exports.homePage=((req,res,next)=>{
         //     let comment =await Comment.find({"article":article._id})
         //     blogs.push({article:article,comment:comment});
         // }
-        console.log("---------------------------",req.session.user)
         return res.render('homepage/homepage',
         {isAuthenticated:res.locals.isAuthenticated,
             message:req.flash("message"),
@@ -46,8 +45,6 @@ exports.editArticle=(req,res,next)=>{
     .then(async article=>{
         Comment.find({"article":article._id}).populate('owner','name')
                 .then(comment=>{
-                    console.log("______________________________")
-                    console.log(comment);
                     return res.render("article/editArticle.ejs",{csrfToken:res.locals.csrfToken,
                         article:article,user:req.session.user,comment});
                 })

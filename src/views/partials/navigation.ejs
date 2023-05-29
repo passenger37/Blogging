@@ -7,14 +7,27 @@
     <% } %>
     <a href="/">Blogs</a>
     <% if (isAuthenticated) { %>
-        <><a href="/addArticle">Add Article</a>
-        <><a href="/logout">Logout</a>
+        <a href="/addArticle">Add Article</a>
+        <a href="/logout">Logout</a>
             <% }else { %>
             <a href="/loginPage">Login</a>
             <a href="/signupPage">Signup</a>
     <%}%>
 </div>
-
+<div class="main-nav-web" >
+  <a href="/">Blogs</a>
+  <% if (isAuthenticated) { %>
+    <a href="/addArticle">Add Article</a>
+    <a href="/logout">Logout</a>
+    <% }else { %>
+      <a href="/loginPage">Login</a>
+      <a href="/signupPage">Signup</a>
+      <%}%>
+      <% if (isAuthenticated && user.name) {%>
+        <a href="/profilepage/<%= user._id%>"><h4><%= user.name%></h4></a>
+        <img src="profile.png" width="80" class="profile-image-web"/>
+      <% } %>
+</div>
 <script>
 function closeNav() {
   document.getElementById("mySidepanel").style.width = "0";

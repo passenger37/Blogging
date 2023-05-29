@@ -6,19 +6,21 @@
     <div class="message"><%= message %></div>
 <% } %>
 <!-- <img src="homepagepic.jpg"/> -->
-<% blogs.forEach(blog=>{%>
-<div class="single-article">
-    <a href="/editarticle/<%= blog._id %>">
-        <div class="article">
-            <h2><%= blog.title %></h2><br/>
-            <strong><%= blog.entry.substring(1, 200) + "..." %></strong><br/>
+<div class="articles">
+    <% blogs.forEach(blog=>{%>
+        <div class="single-article">
+            <a href="/editarticle/<%= blog._id %>">
+                <div class="article">
+                    <h2><%= blog.title %></h2><br/>
+                    <strong><%= blog.entry.substring(1, 200) + "..." %></strong><br/>
+                </div>
+            </a>
+            <div class="name">
+                <a href="/profilepage/<%= blog.owner._id%>"><small>by-<%= blog.owner.name%></small></a>
+            </div>
         </div>
-    </a>
-        <div class="name">
-            <a href="/profilepage/<%= blog.owner._id%>"><small>by-<%= blog.owner.name%></small></a>
-        </div>
+        <% }) %>
 </div>
-<% }) %>
 
     <%- include ('../partials/footer.ejs') -%>
 

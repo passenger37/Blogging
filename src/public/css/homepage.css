@@ -26,3 +26,14 @@
     margin-left: 80%;
 }
 
+@media screen and (min-width: 600px) {
+    /* .single-article{
+        width: 45%;
+    } */
+    .articles {
+      display: grid;
+      grid-template-columns: 45% 45%;
+      grid-column-gap: 5rem;
+      margin: 0px 60px;
+    }
+  }

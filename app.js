@@ -9,7 +9,7 @@ const MongodbStore=require("connect-mongodb-session")(session);
 const flash=require("connect-flash");
 const csrf=require("csurf");
 
-MONGODB_URI='mongodb+srv://passenger37:2UhyYcQfQi8yo5HA@blogging.0lx6fdk.mongodb.net/?retryWrites=true&w=majority&appName=Blogging';
+MONGODB_URI='mongodb+srv://passenger37:passenger37@blogs.htj406e.mongodb.net/blogging?retryWrites=true&w=majority&appName=blogs';
 
 const app=express();
 const PORT = process.env.PORT || 3000;
